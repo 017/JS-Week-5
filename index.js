@@ -274,10 +274,3 @@ console.log(menu.start);
 // this.players = [
 //   new Player('Oryn', 'Fighter', 'The Crimson Blades', 18, 13, 15, 8, 10, 12, 45, 15),
 // ];
-
-// Constitution: ${this.selectedTeam.players[i].constitution} (+${Player.getRollMod(this.selectedTeam.players[i].constitution)})
-// Strength: ${this.selectedTeam.players[i].strength} (+${Player.getRollMod(this.selectedTeam.players[i].strength)})
-// Agility: ${this.selectedTeam.players[i].agility} (+${Player.getRollMod(this.selectedTeam.players[i].agility)})
-// Charisma: ${this.selectedTeam.players[i].charisma} (+${Player.getRollMod(this.selectedTeam.players[i].charisma)})
-// Wisdom: ${this.selectedTeam.players[i].wisdom} (+${Player.getRollMod(this.selectedTeam.players[i].wisdom)})
-// Intelligence: ${this.selectedTeam.players[i].intelligence} (+${Player.getRollMod(this.selectedTeam.players[i].intelligence)})

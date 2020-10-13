@@ -304,12 +304,12 @@ class Menu {
       Class: ${ply.playerClass}
       AC: ${ply.armorClass}
       HP: ${ply.hitPoints}
-      Constitution: ${ply.constitution} (+${this.getRollMod(ply.constitution)})
-      Strength: ${ply.strength} (+${this.getRollMod(ply.strength)})
-      Agility: ${ply.agility} (+${this.getRollMod(ply.agility)})
-      Charisma: ${ply.charisma} (+${this.getRollMod(ply.charisma)})
-      Wisdom: ${ply.wisdom} (+${this.getRollMod(ply.wisdom)})
-      Intelligence: ${ply.intelligence} (+${this.getRollMod(ply.intelligence)})
+      Constitution: ${ply.constitution} (Roll Bonus: ${this.getRollMod(ply.constitution)})
+      Strength: ${ply.strength} (Roll Bonus: ${this.getRollMod(ply.strength)})
+      Agility: ${ply.agility} (Roll Bonus: ${this.getRollMod(ply.agility)})
+      Charisma: ${ply.charisma} (Roll Bonus: ${this.getRollMod(ply.charisma)})
+      Wisdom: ${ply.wisdom} (Roll Bonus: ${this.getRollMod(ply.wisdom)})
+      Intelligence: ${ply.intelligence} (Roll Bonus: ${this.getRollMod(ply.intelligence)})
       --------------------------------------------------
       `;
     }

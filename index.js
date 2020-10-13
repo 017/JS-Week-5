@@ -261,7 +261,7 @@ class Menu {
     let AC;
     if (playerClass == 'Paladin', 'Warlock') {
       AC = this.getAC(CHA);
-    } else if (playerClass = 'Sorcerer') {
+    } else if (playerClass == 'Sorcerer') {
       AC = this.getAC(CHA + 5);
     } else {
       AC = this.getAC(AGI);
@@ -288,7 +288,7 @@ class Menu {
     }
     alert(list);
     let index = prompt(`Enter the index of the player to delete.`);
-    if (index !== -1) {
+    if (index !== undefined) {
       this.selectedTeam.players.splice(index, 1);
     }
   }

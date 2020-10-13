@@ -96,6 +96,7 @@ class Menu {
   }
 
   start() {
+    console.log('START');
     let selection = this.showMainMenu();
     while (selection != 0) {
       switch (selection) {
@@ -269,7 +270,7 @@ class Menu {
 
 let menu = new Menu();
 console.log(menu);
-console.log(menu.start);
+menu.start();
 
 // this.players = [
 //   new Player('Oryn', 'Fighter', 'The Crimson Blades', 18, 13, 15, 8, 10, 12, 45, 15),

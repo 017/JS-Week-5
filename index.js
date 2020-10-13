@@ -332,7 +332,3 @@ class Menu {
 let menu = new Menu();
 console.log(menu);
 menu.start();
-
-// this.players = [
-//   new Player('Oryn', 'Fighter', 'The Crimson Blades', 18, 13, 15, 8, 10, 12, 45, 15),
-// ];

@@ -12,11 +12,6 @@ class Player {
     this.armorClass = AC;
   }
 
-  rollStat() {
-    result = Math.floor((Math.random() * 6) + (Math.random() * 6) + (Math.random() * 6));
-    return result;
-  }
-
   getRollMod(stat) {
     if (stat >= 18) {
       return 5;
@@ -39,16 +34,6 @@ class Player {
     } else {
       return -4;
     }
-  }
-
-  rollHP(hpstat) {
-    let rolledHitPoints = Math.floor((Math.random() * 6) * this.getRollMod(hpstat));
-    return rolledHitPoints;
-  }
-
-  getAC(stat) {
-    let calculatedAC = 10 + this.getRollMod(stat);
-    return calculatedAC;
   }
 
   describe() {
@@ -123,24 +108,30 @@ class Menu {
 
   showMainMenu() {
     return prompt(`
-    -----------------------
     0: EXIT
     1: CREATE NEW TEAM
     2: VIEW TEAM
     3: DELETE TEAM
     4: DISPLAY ALL TEAMS
-    -----------------------
     `);
   }
 
   showTeamMenu(teamInfo) {
     return prompt(`
-    -----------------------
     0: BACK
     1: CREATE PLAYER
     2: DELETE PLAYER
-    -----------------------
+    3: VIEW PLAYERS
     `);
+  }
+
+  getTeams() {
+    let list = '';
+    for (let j = 0; j < this.teams.length; j++) {
+      list += `[${j}] ${this.teams[j].name}
+      `;
+    }
+    alert(list);
   }
 
   createTeam() {
@@ -149,17 +140,16 @@ class Menu {
   }
 
   deleteTeam() {
-    let target = prompt(`Enter the name of the team to delete.`);
-    let index = this.teams.indexOf(target);
+    this.getTeams();
+    let index = prompt(`Enter the index of the team to delete.`);
     if (index !== -1) {
-      this.selectedTeam.players.splice(index, 1);
+      this.teams.splice(index, 1);
     }
   }
 
   viewTeam() {
-    let searchName = prompt(`Enter the name of the team you want to view:
-    ${this.teams}`);
-    let index = this.teams.indexOf(searchName); //Search for the result
+    this.getTeams()
+    let index = prompt(`Enter the index of the team you want to view.`);
     if (index !== -1) {
       this.selectedTeam = this.teams[index];
       let description = `Team Name: ${this.selectedTeam.name}
@@ -182,6 +172,9 @@ class Menu {
           break;
         case '2':
           this.deletePlayer();
+          break;
+        case '3':
+          this.displayPlayers();
       }
 
     } else if (result === -1) {
@@ -190,16 +183,60 @@ class Menu {
       throw new Error(`Error: Invalid Input`);
     }
   }
+  
+  rollStat() {
+    let result1 = Math.floor((Math.random() * 6));
+    let result2 = Math.floor((Math.random() * 6));
+    let result3 = Math.floor((Math.random() * 6));
+    let result = 6 + result1 + result2 + result3;
+    return result;
+  }
+
+  getRollMod(stat) {
+    if (stat >= 18) {
+      return 5;
+    } else if (stat >= 16) {
+      return 4;
+    } else if (stat >= 14) {
+      return 3;
+    } else if (stat >= 12) {
+      return 2;
+    } else if (stat >= 10) {
+      return 1;
+    } else if (stat >= 8) {
+      return 0;
+    } else if (stat >= 6) {
+      return -1;
+    } else if (stat >= 4) {
+      return -2;
+    } else if (stat >= 2) {
+      return -3;
+    } else {
+      return -4;
+    }
+  }
+
+  rollHP(hpstat, multi) {
+    let rolled = Math.floor(Math.random() * 6);
+    let hpMod = this.getRollMod(hpstat + 10);
+    let result = rolled * hpMod * multi;
+    return result;
+  }
+
+  getAC(stat) {
+    let calculatedAC = 10 + this.getRollMod(stat);
+    return calculatedAC;
+  }
 
   createPlayer() {
     let validClasses = ['Fighter', 'Rogue', 'Ranger', 'Wizard', 'Sorcerer', 'Warlock', 'Paladin', 'Barbarian'];
     let playerName = prompt('Enter new player name. Stats will be randomized for the new player.');
-    let STR = Player.rollStat();
-    let AGI = Player.rollStat();
-    let CON = Player.rollStat();
-    let CHA = Player.rollStat();
-    let WIS = Player.rollStat();
-    let INT = Player.rollStat();
+    let STR = this.rollStat();
+    let AGI = this.rollStat();
+    let CON = this.rollStat();
+    let CHA = this.rollStat();
+    let WIS = this.rollStat();
+    let INT = this.rollStat();
     let playerClass = prompt(`
     Select a new player class.
     This can be: ${validClasses}
@@ -209,24 +246,25 @@ class Menu {
     Agility: ${AGI}
     Constitution: ${CON}
     Charisma: ${CHA}
-    Dexterity: ${DEX}
     Wisdom: ${WIS}
     Intelligence: ${INT}
     `);
 
     let HP;
     if (playerClass == 'Barbarian') {
-      HP = Player.rollHP(CON * 2);
+      HP = this.rollHP(CON * 2, 2);
     } else {
-      HP = Player.rollHP(CON);
+      HP = this.rollHP(CON, 2);
     }
     alert(`HitPoints: ${HP}`);
 
     let AC;
     if (playerClass == 'Paladin', 'Warlock') {
-      AC = Player.getAC(CHA);
+      AC = this.getAC(CHA);
+    } else if (playerClass = 'Sorcerer') {
+      AC = this.getAC(CHA + 5);
     } else {
-      AC = Player.getAC(AGI);
+      AC = this.getAC(AGI);
     }
 
     function validateClass(name) {
@@ -239,20 +277,43 @@ class Menu {
       });
     }
 
-    if (validateClass(playerClass) === true) {
-      this.selectedTeam.players.push(new Player(playerName, playerClass, STR, AGI, CON, CHA, WIS, INT, HP, AC));
-    } else {
-      throw new Error(`Your provided classname is invalid. Please try again.`);
-    }
-
+    this.selectedTeam.players.push(new Player(playerName, playerClass, STR, AGI, CON, CHA, WIS, INT, HP, AC));
   }
 
   deletePlayer() {
-    let target = prompt(`Enter the name of the player to delete.`);
-    let index = this.selectedTeam.players.indexOf(target);
+    let list = '';
+    for (let j = 0; j < this.selectedTeam.players.length; j++) {
+      list += `[${j}] ${this.selectedTeam.players[j].playerName}
+      `;
+    }
+    alert(list);
+    let index = prompt(`Enter the index of the player to delete.`);
     if (index !== -1) {
       this.selectedTeam.players.splice(index, 1);
     }
+  }
+
+  displayPlayers() {
+    let list = '';
+    for (let j = 0; j < this.selectedTeam.players.length; j++) {
+      let ply = this.selectedTeam.players[j];
+      list += `
+      --------------------------------------------------
+      [${j}] ${ply.playerName}
+      Player Details:
+      Class: ${ply.playerClass}
+      AC: ${ply.armorClass}
+      HP: ${ply.hitPoints}
+      Constitution: ${ply.constitution} (+${this.getRollMod(ply.constitution)})
+      Strength: ${ply.strength} (+${this.getRollMod(ply.strength)})
+      Agility: ${ply.agility} (+${this.getRollMod(ply.agility)})
+      Charisma: ${ply.charisma} (+${this.getRollMod(ply.charisma)})
+      Wisdom: ${ply.wisdom} (+${this.getRollMod(ply.wisdom)})
+      Intelligence: ${ply.intelligence} (+${this.getRollMod(ply.intelligence)})
+      --------------------------------------------------
+      `;
+    }
+    alert(list);
   }
 
   displayTeams() {

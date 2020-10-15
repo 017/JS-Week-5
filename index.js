@@ -267,15 +267,15 @@ class Menu {
       AC = this.getAC(AGI);
     }
 
-    function validateClass(name) {
-      validClasses.forEach(function (name) {
-        if (validClasses.indexOf(name) === -1) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-    }
+    // function validateClass(name) {
+    //   validClasses.forEach(function (name) {
+    //     if (validClasses.indexOf(name) === -1) {
+    //       return false;
+    //     } else {
+    //       return true;
+    //     }
+    //   });
+    // }
 
     this.selectedTeam.players.push(new Player(playerName, playerClass, STR, AGI, CON, CHA, WIS, INT, HP, AC));
   }
